@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+<title>Example of Twitter Bootstrap 3 Static Navbar Extended</title>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>   
+<style type="text/css">
+    .bs-example{
+    	margin: 20px;
+    }
+</style>
+    <style type="text/css">
+      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMcwJzP7InEwYYrIE4CMF08G3Vm4Fce3Y">
+    </script>
+   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization"></script>
+    <script type="text/javascript">
+    var markers=[];//for storing markers so we can clear them
+    var heatMapData = [];
+    var marker, i,  heatmap;
+    var map ;
+	function handleAjaxRefresh(result){
+	      	    	var len = result.length;
+      	    		var i, j, entry;
+              		for (i = 0; i < result.length; ++i) {
+              		    for (j = 0; j < result[i].count; ++j) {
+              		    	heatMapData.push(new google.maps.LatLng(result[i].latitude, result[i].longitude));
+              		    }
+              		}
+                  var pointArray = new google.maps.MVCArray(heatMapData);
+              	  heatmap = new google.maps.visualization.HeatmapLayer({
+              	    data: pointArray
+              	  });
+
+              	  heatmap.setMap(map);
+	}
+	function updateHeatMap(){
+	      	clearMarkers();
+	      	//clearheatMap();
+			var arr = [];
+      		var locationArr;
+ 	    	  	$.getJSON("../rest/hello-world/getGroupedTweets?round=0&count=200",function(result){
+					handleAjaxRefresh(result);
+      	    	});//end of ajax call
+	}
+	function updateHeatMapWithKeywordData(){
+      	clearMarkers();
+      	//clearheatMap();
+		var arr = [];
+  		var locationArr;
+	    	  	$.getJSON("../rest/hello-world/getTweetsByKeyword?hashTag="+document.getElementById("keyword").value,function(result){
+				handleAjaxRefresh(result);
+  	    	});//end of ajax call
+}
+    function initialize() {
+    	 
+    var myLatlng =  new google.maps.LatLng(-0.8833, -0.0167);
+    var pointarray;
+    var mapOptions = {
+          center: myLatlng,
+          zoom:2
+        };
+    map = new google.maps.Map(document.getElementById('map-canvas'),  mapOptions);
+    google.maps.event.addListener(map, 'click', function() {
+			updateHeatMap();
+   });
+  
+  	 updateHeatMap();
+ 
+      }
+      function changeGradient() {
+    	  var gradient = [
+    	    'rgba(0, 255, 255, 0)',
+    	    'rgba(0, 255, 255, 1)',
+    	    'rgba(0, 191, 255, 1)',
+    	    'rgba(0, 127, 255, 1)',
+    	    'rgba(0, 63, 255, 1)',
+    	    'rgba(0, 0, 255, 1)',
+    	    'rgba(0, 0, 223, 1)',
+    	    'rgba(0, 0, 191, 1)',
+    	    'rgba(0, 0, 159, 1)',
+    	    'rgba(0, 0, 127, 1)',
+    	    'rgba(63, 0, 91, 1)',
+    	    'rgba(127, 0, 63, 1)',
+    	    'rgba(191, 0, 31, 1)',
+    	    'rgba(255, 0, 0, 1)'
+    	  ]
+    	  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+    	}
+      google.maps.event.addDomListener(window, 'load', initialize);
+//-----------------------------------
+//Sets the map on all markers in the array.
+//-----------------------------------
+function setAllMap(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+function setAllheatMapData(map) {
+	  for (var i = 0; i < heatMapData.length; i++) {
+	    markers[i].setMap(map);
+	  }
+	  heatmap.setMap(map);
+	}
+	
+//-----------------------------------
+// Removes the markers from the map, but keeps them in the array.
+//-----------------------------------
+function clearMarkers() {
+  setAllMap(null);
+}
+
+function clearheatMap() {
+	setAllheatMapData(null);
+	}
+
+//-----------------------------------
+// Shows any markers currently in the array.
+//-----------------------------------
+function showMarkers() {
+  setAllMap(map);
+}
+//-----------------------------------
+// Deletes all markers in the array by removing references to them.
+//-----------------------------------
+function deleteMarkers() {
+  clearMarkers();
+  markers = [];
+}
+    </script>
+  </head>
+  <body>
+<div id='cssmenu'> 
+<ul>
+
+   <li><a href='./tweetMaps.html'><span>Live Tweets</span></a></li>
+   <li><a href='#'>   Filter By Keyword
+ <span>
+
+ <select id="keyword" onchange="updateHeatMapWithKeywordData()">
+  <option value="love" selected="selected">love</option>
+      <option value="halloween" >halloween</option>
+  <option value="girl">girl</option>
+  <option value="beiber">beiber</option>
+  <option value="ebola">ebola</option>
+  <option value="modi">modi</option>
+  <option value="nyc">nyc</option>
+  <option value="india">india</option>
+  <option value="us">us</option>
+  <option value="columbia">columbia</option>
+  <option value="microsoft">microsoft</option>
+
+</select>
+</span></a></li>
+   <li  class='active'><a href='#'><span>Heat Map</span></a></li>
+   <li><a href='./aboutUs.html'><span>About Us</span></a></li>
+   <li class='last'><a href='./techStack.html'><span>Technology Stack</span></a></li>
+</ul>
+</div>
+	<div id="tweets"></div>	
+	<div id="map-canvas"></div>				
+  </body>
+</html>

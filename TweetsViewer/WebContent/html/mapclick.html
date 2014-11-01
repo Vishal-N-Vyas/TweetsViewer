@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple click event</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+ 
+    <script src="json_parse.js"></script>   
+    <script>
+function initialize() {
+  var mapOptions = {
+    zoom: 4,
+    center: new google.maps.LatLng(-25.363882, 131.044922)
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  var marker = new google.maps.Marker({
+    position: map.getCenter(),
+    map: map,
+    title: 'Click to zoom'
+  });
+
+  google.maps.event.addListener(map, 'center_changed', function() {
+    // 3 seconds after the center of the map has changed, pan back to the
+    // marker.
+    window.setTimeout(function() {
+      map.panTo(marker.getPosition());
+    }, 3000);
+  });
+
+  google.maps.event.addListener(marker, 'click', function() {
+    //map.setZoom(8);
+    //map.setCenter(marker.getPosition());
+    document.getElementById('tweets').innerHTML ="test"+ marker.getPosition() ;
+    
+    
+    //http://api.geonames.org/citiesJSON?
+ //http://ip.jsontest.com/?mime=5  ("../rest/hello-world/getGroupedTweets?round=
+    	  $.getJSON("../rest/hello-world/getGroupedTweets?round=0&count=2",function(result){
+    		  var text = '{"name":"John Johnson","street":"Oslo West 16","phone":"555 1234567"}';
+    		  var text2="[{'latitude':-23.63,'longitude':-46.62,'count':1},{'latitude':13.04,'longitude':80.25,'count':1},{'latitude':13.95,'longitude':121.2,'count':1}]";
+    		  document.getElementById('tweets').innerHTML =document.getElementById('tweets').innerHTML + text2[0].latitude;
+    			 var obj = JSON.parse(text2);
+    		for(var tw :result ){	 
+    			 result[0].latitude
+    			 result[0].longitude
+    			 result[0].count
+    		}
+    		 var obj = JSON.parse(result);
+    		  document.getElementById('tweets').innerHTML =document.getElementById('tweets').innerHTML + obj;
+    		  document.getElementById('tweets').innerHTML =document.getElementById('tweets').innerHTML + obj[0].ip;
+    		  /*document.getElementById('tweets').innerHTML =document.getElementById('tweets').innerHTML + obj.status.message;
+    		  document.getElementById('tweets').innerHTML =document.getElementById('tweets').innerHTML + obj.message;
+    		  document.getElementById('tweets').innerHTML =document.getElementById('tweets').innerHTML + obj.status[0].message;
+            var obj2 = eval ("(" + result + ")");   
+      	  document.getElementById('tweets').innerHTML =document.getElementById('tweets').innerHTML + obj2;*/
+          
+            
+    	    $.each(result, function(i, field){  
+    	      $("tweets").append(field + " ");
+    	    });
+    	    
+    	  });
+    
+    
+    
+    
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+  
+  <div id="tweets"></div>
+    <div id="tweets1212">hello world</div>
+    <div id="map-canvas"></div>
+  </body>
+</html>

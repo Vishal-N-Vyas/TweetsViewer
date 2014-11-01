@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Tweet Mapper : [Tech Infinity : Vishal Vyas , Utkarsha Prakash], Columbia University</title>
+  
+<link rel="stylesheet" href="../css/styles.css">
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>   
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/json_parse.js"></script>
+</head>
+<body>
+
+<div id='cssmenu'> 
+<ul>
+
+   <li><a href='./tweetMaps.html'><span>Live Tweets</span></a></li>
+   <li><a href='#'>
+ <span>
+   Filter By Keyword
+ <select id="keyword" onchange="getTweetsByKeyword()">
+  <option value="love" selected="selected">love</option>
+      <option value="halloween" >halloween</option>
+  <option value="girl">girl</option>
+  <option value="beiber">beiber</option>
+  <option value="ebola">ebola</option>
+  <option value="modi">modi</option>
+  <option value="nyc">nyc</option>
+  <option value="india">india</option>
+  <option value="us">us</option>
+  <option value="columbia">columbia</option>
+  <option value="microsoft">microsoft</option>
+
+</select>
+</span></a></li>
+   <li ><a href='#'><span>Heat Map</span></a></li>
+   <li  ><a href='./aboutUs.html'><span>About Us</span></a></li>
+   <li  class='active'><a href='./techStack.html'><span>Technology Stack</span></a></li>
+ 
+</ul>
+</div>
+<div class="box"  style="width:100%;height:90%">
+	<div id="tweets1"  >
+ 		<h3> Tweet Stream Viewer </h3>
+	</div>
+ 	<div id="tweets1"  >
+ 	<table>
+ 
+ 			<tr>
+ 			<td>
+ 			<h4>   Java :</h4>
+ 			</td><td> for all server side processing</td></tr>
+ 		
+ 		 			<tr>
+ 			<td>
+ 			<h4>  Jax RS:</h4>
+ 			</td><td> for Rest API support</td></tr>
+ 		
+ 
+ 		<tr>
+ 			<td>
+ 			<h4> Ajax:</h4>
+ 			</td><td> Asynchronous Calls to server </td></tr>
+		
+		<tr>
+ 			<td>
+ 			<h4> Tomcat</h4></td>
+ 			<td> For hosting Webapp</td></tr>
+ 			
+ 			 			<tr>
+ 			<td>
+ 			<h4> Amazon EC2 +<br/> Elastic Bean Stalk</h4>
+ 			</td><td> for hosting Application on Cloud with features like load balancing and speed</td></tr>
+ 			
+ 		<tr>
+ 			<td>
+ 			<h4> Mongo DB</h4>
+ 			</td><td> for Document Store</td></tr>
+ 			
+ 
+ 			</table>
+	</div>
+ 
+</div>
+</body>
+</html>
